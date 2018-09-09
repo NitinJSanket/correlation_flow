@@ -1,4 +1,37 @@
 # Correlation Flow
+
+# Steps to run the demo-
+
+1. Clone the repository
+```
+cd catkin_ws/src
+git clone https://github.com/akathpal/correlation_flow
+```
+
+2. Install Dependencies as mentioned.
+3. Compile the ROS workspace using catkin_make
+4. Give permissions to py files.
+```
+cd catkin_ws/src/correlation_flow/script
+chmod u+x imagepub_video.py
+chmod u+x imagepub_2frames.py
+```
+
+5. Run correlation flow launch file 
+```
+roslaunch correlation_flow correlation_flow.launch
+```
+
+6. To run the video from a camera, 
+```
+rosrun correlation_flow imagepub_video.py
+```
+7. To view the optical flow output using 2 frames, 
+```
+rosrun correlation_flow imagepub_2frames.py
+```
+
+
 Correlation Flow: Robust Optical Flow using Kernel Cross-Correlators
 
     	Velocity Estimation in 3-D space $v_x, v_y, v_z, \omega_z$
