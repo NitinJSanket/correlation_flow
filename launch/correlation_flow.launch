@@ -18,7 +18,7 @@
         <param name="rs/sigma" type="double" value="0.2"/>
         <param name="rs/lamda" type="double" value="0.001"/>
 
-        <param name="rs_switch" type="bool" value="false"/>
+        <param name="rs_switch" type="bool" value="true"/>
     </node>
 
 <!--

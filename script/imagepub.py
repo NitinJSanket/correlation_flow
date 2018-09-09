@@ -6,13 +6,14 @@ import cv2
 from cv_bridge import CvBridge, CvBridgeError
 import numpy as np
 import scipy
+import cv2.cv as cv
 
 rospy.init_node('VideoPublisher',anonymous=False)
 VideoRaw = rospy.Publisher('/camera/image_raw', Image, queue_size=10)
 rate = rospy.Rate(50)
 
 
-"""
+#"""
 #publish images from a camera
 #----------------------------
 cam = cv2.VideoCapture(0)
@@ -22,18 +23,22 @@ while not rospy.is_shutdown():
     msg_frame = CvBridge().cv2_to_imgmsg(frame, "mono8")
     msg_frame.header.stamp = rospy.Time.now()
     VideoRaw.publish(msg_frame)
-    # cv2.imshow('frame', frame)
-    # if cv2.waitKey(1) & 0xFF == ord('q'):
-        # break
+    cv2.imshow('frame', frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
     rate.sleep()
 cam.release()
 #----------------------------
 
 
+
+
+
 """
 #publish rotated images from a single image
 #------------------------------------------
-img = cv2.imread('/home/jeffsan/drones/src/correlation_flow/script/panda3.jpg')
+img = cv2.imread('/home/abhishek/my_catkin_ws/src/correlation_flow/script/panda3.jpg')
+print img
 dst = img
 height, width = img.shape[:2]
 #img = cv2.resize(img, (360, 240))
@@ -51,6 +56,8 @@ while not rospy.is_shutdown():
 
     M = cv2.getRotationMatrix2D((width/2,height/2), i, 1+0.02*i)
     dst = cv2.warpAffine(dst,M,(width,height),flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT,  borderValue=(127, 127, 127))
+    
+    
     # dst1 = np.float32(img)
     # dst1[:,:,0] *= g 
     # dst1[:,:,1] *= g 
@@ -62,11 +69,12 @@ while not rospy.is_shutdown():
     VideoRaw.publish(msg_frame)
     cv2.imshow('frame', dst)
     i = i+1
+    cv2.imwrite('pic{:>05}.jpg'.format(i), dst)
     if cv2.waitKey(0) & 0xFF == ord('q'):
         break
     rate.sleep()
 #-------------------------------------------
-
+"""
 
 cv2.destroyAllWindows()
 
